@@ -5,12 +5,16 @@ the circuit works and also why I chose to implement the circuit this way.
 
 ## Power supply
 
+![](power.png)
+
 The TV Desecrator runs at +5V. Although many TVs have a +5V rail (or +5.6V) for the MICOM circuit, I've found that the voltage regulators aren't
 really meant to drive anything other than a standby load, and, being standby rails, are on all the time. So the TV Desecrator has a voltage regulator
 onboard that's tied to some lower-voltage DC doohickery on the chassis. The voltage regulator is a LM2937IMP-5.0 or pin-compatible replacement.
 Two 10uF ceramic caps stabilize the voltage going in and out of the regulator. Boring stuff, really.
 
 ## RGB inputs
+
+![](rgb-input-protection.png)
 
 RGB comes in off whatever device we have, then each channel goes through a PTC resettable fuse, has the 75 ohm pulldown applied, and is forwarded off
 to the switcher. A zener (nominally 1V but can be 2V) is used to clamp the signal to ground in case of overvoltage.
@@ -20,6 +24,8 @@ go too high, then the zeners will start clamping and drawing a few too many mill
 JAMMA-level voltages and I wasn't about to let it happen again.
 
 ## SCART blanking voltage detection
+
+![](opamp.png)
 
 This is where things get a little weird. I used an op-amp to detect the SCART blanking voltage mostly because of the odd voltages that could be
 coming in on that line. It's supposed to be 75 ohm terminated, which I honored here, but even then the voltage might not be enough to trigger
@@ -35,6 +41,10 @@ reference voltage (which, again, should be 1VDC), the op-amp outputs a logical h
 signal is called SCART_BLANKING.
 
 ## RGB muxer logic
+
+![](logic-not-gates.png)
+![](logic-nand-gate.png)
+![](logic-or-gate.png)
 
 This ratsnest of logic computes:
 
@@ -52,10 +62,15 @@ that. Jumpers on the board set this signal to active high (goes directly to the 
 
 ## Switcher phase
 
+![](switcher.png)
+
 RGB switching is performed by a TS5V330CDR 4-channel video switch. By default the switch allows the MICOM signal through, as RGB_INHIBIT
 will normally drive the select pin high. When RGB_INHIBIT falls, the injected RGB signal passes through to the final output phase.
 
 ## Final output phase
+
+![](amp.png)
+![](outputs.png)
 
 The switched video goes through a THS7374, which I'm abusing here as a buffer. Since this circuit is functionally isolated from the
 main RGB lines, we have to do the usual 75 ohm pulldown dance and buffer capacitor on the end. The pulldown is 220 ohms, which seems
@@ -68,6 +83,8 @@ somewhat. The disable and lowpass features are not used at all; those pins are s
 is to replace it with a far cheaper chip, but this is the one I'm used to, so I'm just doing what I know works.
 
 ## Diagnostic lights
+
+![](leds.png)
 
 Finally there are the four diagnostic LEDs. They are:
 
