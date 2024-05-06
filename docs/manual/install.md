@@ -16,8 +16,9 @@ Once you have found your TV of choice, open it up and study the circuitry. You a
   for each of the RGB channels. Usually identifiable by a trio of 4.7k resistors close to the MICOM.
 - The blanking control circuit, which the MICOM chip uses to take priority over the NTSC output.
   This is typically +5V at the source, but is often knocked down to a lower voltage.
-- The RGB in-line capacitors. These can be electrolytic or surface mount. There will be three of them,
-  and they will all be the same value.
+- The RGB in-line capacitors. There will be three of them, and they will all be the same value.
+  In many cases they will be surface mount caps right next to the inputs on the jungle chip.
+  However it's common for these caps to be electrolytics.
 - And, most importantly, the jungle chip, which is an all-in-one chip that decodes NTSC signals,
   overlays the OSD, and drives the RGB signals on the CRT itself.
 
