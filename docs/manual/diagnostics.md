@@ -19,6 +19,13 @@ Intended operation:
 
 Here are some problems I've encountered and their causes.
 
+### No power (red light stays off)
+
+The TV Desecrator needs a 6-12 volt power source. The jungle chip is usually supplied with approximately 7 volts.
+
+There is no reverse polarity protection on this circuit, by the way. You'll destroy it, and possibly your equipment,
+if you don't feed a positive voltage to VIN.
+
 ### Picture looks exactly like composite
 
 That's probably because it is. The TV Desecrator falls back to composite over SCART if it sees no RGB blanking signal.
@@ -30,7 +37,7 @@ RGB_SELECTED isn't going active. Green diagnostic light should be toggling. Logi
 
 ### RGB injects all the time
 
-Bridged solder joints somewhere. Can also cause major thermal stress on the NAND gate.
+Immediately disconnect power and check for bridged solder joints.
 
 ### Ghosting
 
@@ -49,7 +56,13 @@ Red/green lines are shorted
 
 ### Screen is too dark
 
-Capacitance on the output is probably too high. Change CC1, CC2, CC3 to a different capacitance value (they are 0.47uF by default).
+This can be caused by resistance or capacitance anywhere on the inputs and outputs.
+
+Capacitance on the output side will result in video that is too dark but slowly fades in after a while. If this happens, CC1/CC2/CC3
+all need to be changed. They are 0.47uF by default; use a lower value if you want.
+
+Any resistance on the input can cause the signal to be weakened because of the 75 ohm pulldowns. This is why there's an RGB amp on
+the board in the first place: the signal is bound to be attenuated by the protection circuitry, particularly the thermistors.
 
 ### Dark screen with dotted highlights
 
@@ -76,6 +89,10 @@ If I can fix this in the future, I'll document it here.
 
 The N64 needs to be modded to support RGB. Install the mod and try again.
 
+This will also happen if your SCART cable has the RGB blanking signal active but your console doesn't output RGB.
+All SCART cables are "dumb" in that they will always signal that they are RGB cables without actually checking if
+RGB video is present.
+
 ### Unwelcome video noise
 
 There are several possible causes:
@@ -92,7 +109,7 @@ This is a known issue on some chassis of which the cause currently isn't clear.
 The TV Desecrator always gives the OSD priority over the injected RGB picture,
 but it doesn't explain why the MICOM keeps the blanking signal asserted.
 
-Workaround is to fit a switch on the MICOM blanking line.
+The workaround is to switch the MICOM blanking signal off when RGB is on.
 
 ### Injected RGB picture off-center
 

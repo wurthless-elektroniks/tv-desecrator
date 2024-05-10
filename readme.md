@@ -1,5 +1,7 @@
 # TV Desecrator: A universal-as-I-can-make-it RGB SCART circuit for non-SCART TVs
 
+![](ewaste.jpeg)
+
 Hey, you! Are you an idiot who wishes to ruin a perfectly good TV? Then build yourself a TV Desecrator! It's a reliable way of adding a SCART connector to a TV that doesn't normally support it.
 
 There are plenty of takes on RGB mods already, but I wanted to do one with seamless operation and simpler installation. In other words, I wanted the SCART connector to behave as if it was part
@@ -23,10 +25,11 @@ If you order your own boards and find it doesn't work, then you forgot to read t
 * SCART port can function exactly like a normal input; totally switchless operation
 * RGB injection that doesn't interfere with OSD and other input modes
 * Safe and reliable SCART RGB blanking detection: no need to worry about 10 volt signals wrecking shit
+* Much easier installation than passive diode mux mods: abacus not required
 * THS7374 video amp so the final injected signal comes in loud and clear
 * Diagnostic blinkenlights to tell you where you fucked up
 * Modular design so you can easily pull the TV case apart when things inevitably explode
-* Modular design also means you can use BNC like a civilized person
+* Modular design also means you can use BNC or JP-21 like a civilized person
 
 # **BEFORE YOU INSTALL THIS, ASK YOURSELF: "DO I REALLY NEED RGB?"**
 
