@@ -27,7 +27,7 @@ The TV Desecrator needs a 6-12 volt power source. The jungle chip is usually sup
 There is no reverse polarity protection on this circuit, by the way. You'll destroy it, and possibly your equipment,
 if you don't feed a positive voltage to VIN.
 
-## Red light is on when the set is off
+### Red light is on when the set is off
 
 You've tapped off a power rail that's turned on in standby. Find another one, or live with the milliamps of wasted electricity.
 
