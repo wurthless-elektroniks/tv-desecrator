@@ -12,7 +12,8 @@ There are four blinkenlights on the TV Desecrator board. Here is what they mean.
 Intended operation:
 
 * Red only means the board is powered.
-* Yellow and Green should never light unless Blue is lit.
+* Yellow should always light up when the OSD is on.
+* Green should only light up when Blue is on.
 * Yellow and Green should never light at the same time, except when the OSD is active.
 
 ## Troubleshooting
@@ -26,10 +27,21 @@ The TV Desecrator needs a 6-12 volt power source. The jungle chip is usually sup
 There is no reverse polarity protection on this circuit, by the way. You'll destroy it, and possibly your equipment,
 if you don't feed a positive voltage to VIN.
 
+## Red light is on when the set is off
+
+You've tapped off a power rail that's turned on in standby. Find another one, or live with the milliamps of wasted electricity.
+
+**If the TV Desecrator fails catastrophically while running in standby mode, then I take no responsibility for your installation mishaps.**
+
 ### Picture looks exactly like composite
 
 That's probably because it is. The TV Desecrator falls back to composite over SCART if it sees no RGB blanking signal.
 Make sure the blue and green diagnostic lights toggle.
+
+### Black screen, but image barely visible when SCREEN/brightness turned up all the way
+
+This is most likely the underlying composite video signal bleeding through. The MICOM blanking line is likely stuck high
+or the SCART cable isn't outputting RGB video.
 
 ### SCART RGB signal detected but RGB never injects
 
@@ -38,6 +50,8 @@ RGB_SELECTED isn't going active. Green diagnostic light should be toggling. Logi
 ### RGB injects all the time
 
 Immediately disconnect power and check for bridged solder joints.
+
+You might also have set the calibration potentiometer too low. Turn the pot all the way to the left and recalibrate.
 
 ### Ghosting
 
@@ -50,9 +64,11 @@ Missing pulldowns on the input result in extensive ghosting. This will happen on
 Probably swapped wires somewhere. RGB lines are often creatively routed on the chassis, so it's not often clear which lines are which.
 Check schematics and try again.
 
-### Screen is yellow and blue
+### Odd colors
 
-Red/green lines are shorted
+You probably didn't connect the RGB lines correctly or have a short somewhere. Examples include:
+
+* Yellow/blue colors = red/green lines shorted
 
 ### Screen is too dark
 
@@ -103,13 +119,27 @@ There are several possible causes:
 - RGB wiring inside your TV is capacitively coupling to something else. TV chassis cause a lot of noise.
   Try decoupling the wires to ground somehow (twisted pair, shielded wiring, etc.).
 
-### MICOM asserts blanking when RGB present and keeps blanking asserted until reset
+### MICOM blanking signal is stuck low or high, inhibiting RGB injection
 
-This is a known issue on some chassis of which the cause currently isn't clear.
-The TV Desecrator always gives the OSD priority over the injected RGB picture,
-but it doesn't explain why the MICOM keeps the blanking signal asserted.
+Check continuity between the MICOM blanking input and muxed output. If it shows continuity, you have a short circuit,
+and the OR gate that generates the output blanking signal is feeding back into itself. Doublecheck your wiring and
+make sure you haven't removed the wrong component by accident.
 
-The workaround is to switch the MICOM blanking signal off when RGB is on.
+### MICOM blanking signal is never detected but RGB blanking works
+
+Press a button you know will trigger the OSD and measure the voltage on the OSD blanking input.
+If the voltage is below a TTL logical high (i.e., 3 volts), then you're tapping off the MICOM blanking
+signal way too late for it to be effective.
+
+**In this setup, you're most likely feeding too high a voltage to the jungle chip's blanking input.** Modders occasionally
+suggest that you can just feed 5 volts to that pin and nothing bad will happen. How the jungle blanking circuit works
+internally is that there is usually a PNP transistor on that input that, when any positive voltage is present, enables
+the RGB overlay. While this works, there's no real guarantee that transistor will cooperate long term as the base-emitter
+voltage will be several times higher than normal.
+
+There are some TVs in which it's not practical to redirect the blanking signal until it's too late. RCA GemStar-enabled
+TVs have the MICOM integrated into a separate module, and by the time the MICOM blanking signal is on the chassis PCB
+it's already been knocked down to around 1.08 volts. A bodge board is planned as a workaround.
 
 ### Injected RGB picture off-center
 
