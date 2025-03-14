@@ -7,6 +7,8 @@ Find a CRT TV matching these specifications:
 - Must have composite video input, **preferably only one video input**
 - Must have on-screen display
 - Sets with component and composite on the same video input are of particular interest (I'll explain why)
+- **Chassis MUST be properly isolated from the mains (read [hotchassis.md](hotchassis.md)). NEVER attempt to
+  modify a hot chassis.**
 
 Once you have found your TV of choice, open it up and study the circuitry. You are looking for the following:
 - MICOM chip: a microcontroller looking thingy near the front panel controls.
